@@ -1,0 +1,7 @@
+Test | Value | Unit | Reference range | Date | Observation
+Hemoglobin | 11.2 | g/dL | 12.0 - 15.5 | 2026-09-01 |
+White blood cells | 6.8 | 10^9/L | 4.0 - 11.0 | 2026-09-01 |
+Platelets | 248 | 10^9/L | 150 - 400 | 2026-09-01 |
+Ferritin | 9 | ng/mL | 15 - 150 | 2026-09-01 |
+Glucose | 92 | mg/dL | 70 - 99 | 2026-09-01 |
+Vitamin D | 24 | ng/mL | | 2026-09-01 | Range not provided

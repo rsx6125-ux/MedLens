@@ -1,0 +1,8 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {rangeStatus,parseReport,safeSummary} from '../lib/medical.ts';
+test('numeric reference comparisons preserve boundaries',()=>{assert.equal(rangeStatus('12','12 - 15'),'Normal');assert.equal(rangeStatus('11.9','12–15'),'Low');assert.equal(rangeStatus('15.1','12 - 15'),'High');assert.equal(rangeStatus('-2','-3 - -1'),'Normal');});
+test('missing, qualitative, conflicting, demographic and unit-bearing ranges fail closed',()=>{for(const [v,r] of [['4',''],['positive','negative'],['<5','0 - 10'],['4','10 - 2'],['4','Male: 3 - 5; Female: 2 - 4'],['4','3 - 5 mg/L'],['NaN','0 - 10']])assert.equal(rangeStatus(v,r),'Unknown');});
+test('strict and inclusive one-sided limits',()=>{assert.equal(rangeStatus('5','<5'),'High');assert.equal(rangeStatus('5','<=5'),'Normal');assert.equal(rangeStatus('5','>5'),'Low');assert.equal(rangeStatus('5','≥5'),'Normal');});
+test('parser preserves missing data and source without inventing ranges',()=>{const f=parseReport('Test | Value | Unit | Range\nFerritin | 9 | ng/mL | | 2026-09-01');assert.equal(f.length,1);assert.equal(f[0].range,'');assert.equal(f[0].verified,false);assert.ok(f[0].excerpt.includes('Ferritin'));assert.equal(parseReport('This paragraph is not a structured table').length,0);});
+test('summary states unknown and unverified counts',()=>{const f=parseReport('A | 5 | mg/L | 0 - 4\nB | positive | |');const s=safeSummary([{id:'r',patientId:'p',name:'Source',date:'',sourceText:'',hasFile:false,method:'Text parser',findings:f}]);assert.ok(s.text.includes('1 cannot be classified'));assert.ok(s.text.includes('2 results still need'));assert.equal(s.items[0].source,'Source');});

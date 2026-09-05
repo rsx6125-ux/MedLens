@@ -1,0 +1,4 @@
+Test | Value | Unit | Reference range | Date | Observation
+Hemoglobin | 11.8 | g/dL | 12.0 - 15.5 | 2026-08-01 | Synthetic example
+Ferritin | 12 | ng/mL | 15 - 150 | 2026-08-01 | Synthetic example
+Glucose | 88 | mg/dL | 70 - 99 | 2026-08-01 | Synthetic example
